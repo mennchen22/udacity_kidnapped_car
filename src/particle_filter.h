@@ -32,7 +32,7 @@ class ParticleFilter {
   ParticleFilter() : num_particles(0), is_initialized(false) {}
 
   // Destructor
-  ~ParticleFilter() {}
+  ~ParticleFilter() = default;
 
   /**
    * init Initializes particle filter by initializing particles to Gaussian
@@ -43,7 +43,7 @@ class ParticleFilter {
    * @param std[] Array of dimension 3 [standard deviation of x [m], 
    *   standard deviation of y [m], standard deviation of yaw [rad]]
    */
-  void init(double x, double y, double theta, double std[]);
+  void init(double x, double y, double theta, const double std[]);
 
   /**
    * prediction Predicts the state for the next time step
@@ -54,7 +54,7 @@ class ParticleFilter {
    * @param velocity Velocity of car from t to t+1 [m/s]
    * @param yaw_rate Yaw rate of car from t to t+1 [rad/s]
    */
-  void prediction(double delta_t, double std_pos[], double velocity, 
+  void prediction(double delta_t, const double std_pos[], double velocity,
                   double yaw_rate);
   
   /**
@@ -63,7 +63,7 @@ class ParticleFilter {
    * @param predicted Vector of predicted landmark observations
    * @param observations Vector of landmark observations
    */
-  void dataAssociation(std::vector<LandmarkObs> predicted, 
+  void dataAssociation(std::vector<LandmarkObs>& predicted,
                        std::vector<LandmarkObs>& observations);
   
   /**
@@ -75,7 +75,7 @@ class ParticleFilter {
    * @param observations Vector of landmark observations
    * @param map Map class containing map landmarks
    */
-  void updateWeights(double sensor_range, double std_landmark[], 
+  void updateWeights(double sensor_range, const double std_landmark[],
                      const std::vector<LandmarkObs> &observations,
                      const Map &map_landmarks);
   
@@ -98,7 +98,7 @@ class ParticleFilter {
   /**
    * initialized Returns whether particle filter is initialized yet or not.
    */
-  const bool initialized() const {
+  bool initialized() const {
     return is_initialized;
   }
 
